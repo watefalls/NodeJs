@@ -35,16 +35,26 @@ async function printNotes() {
 
 async function removeNote(id) {
   const notes = await getNotes();
-  const isEmptyId = notes.findIndex((note) => note.id === String(id));
-  if (isEmptyId >= 0) {
-    const newNotes = notes.filter((note) => note.id !== String(id));
+  const elementForDeleteId = notes.findIndex((note) => note.id === id);
+  if (elementForDeleteId >= 0) {
+    const newNotes = notes.filter((note) => note.id !== id);
     await fs.writeFile(notesPath, JSON.stringify(newNotes));
     printNotes();
-  } else console.log(chalk.bgRed(`This id : ${id} not found from notes`));
+  } else {
+    console.log(chalk.bgRed(`This id : ${id} not found from notes`));
+  }
+}
+
+async function updateNote(newNote) {
+  const notes = await getNotes();
+  notes[notes.findIndex((el) => el.id === newNote.id)] = newNote;
+  await fs.writeFile(notesPath, JSON.stringify(notes));
 }
 
 module.exports = {
   addNote,
   printNotes,
   removeNote,
+  getNotes,
+  updateNote,
 };
