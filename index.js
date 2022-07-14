@@ -1,3 +1,5 @@
+// require("./yargs");
+
 const express = require("express");
 const chalk = require("chalk");
 const {
@@ -38,6 +40,7 @@ app.post("/", async (req, res) => {
     notes: await getNotes(),
     created: true,
   });
+  res.location("/");
 });
 
 app.delete("/:id", async (req, res) => {

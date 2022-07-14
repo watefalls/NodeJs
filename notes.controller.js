@@ -47,8 +47,13 @@ async function removeNote(id) {
 
 async function updateNote(newNote) {
   const notes = await getNotes();
-  notes[notes.findIndex((el) => el.id === newNote.id)] = newNote;
-  await fs.writeFile(notesPath, JSON.stringify(notes));
+  const elementForDeleteId = notes.findIndex((note) => note.id === newNote.id);
+  if (elementForDeleteId >= 0) {
+    notes[notes.findIndex((el) => el.id === newNote.id)] = newNote;
+    await fs.writeFile(notesPath, JSON.stringify(notes));
+  } else {
+    console.log(chalk.bgRed(`This id : ${newNote.id} not found from notes`));
+  }
 }
 
 module.exports = {
