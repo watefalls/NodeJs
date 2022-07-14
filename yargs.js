@@ -65,7 +65,6 @@ yargs.command({
   },
 
   handler({ id, title }) {
-    console.log({ id: id, title: title });
     updateNote({ id: id, title: title });
   },
 });

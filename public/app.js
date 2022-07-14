@@ -10,8 +10,7 @@ document.addEventListener("click", ({ target }) => {
     const updateBlock = target
       .closest(".list-group-item")
       .querySelector(".updated__block");
-    updateBlock.style.zIndex = 1000;
-    updateBlock.querySelector("input").focus();
+    openUpdateBlock(updateBlock);
   }
 
   if (target.dataset.type === "update") {
@@ -24,14 +23,14 @@ document.addEventListener("click", ({ target }) => {
       const note = { id: id, title: message };
       const textContentTag = target.closest("li").querySelector("p");
       updateNote(note).then(() => (textContentTag.textContent = note.title));
-      target.closest(".updated__block").style.zIndex = -1;
+      closeUpdateBlock(target.closest(".updated__block"));
     } else {
       alert("Поле не долно быть пустым");
     }
   }
 
   if (target.dataset.type === "cancel") {
-    target.closest(".updated__block").style.zIndex = -1;
+    closeUpdateBlock(target.closest(".updated__block"));
   }
 });
 
@@ -57,4 +56,13 @@ async function updateNote(note) {
   } catch (error) {
     console.log(error);
   }
+}
+
+function closeUpdateBlock(DOMel) {
+  DOMel.style.zIndex = -1;
+}
+
+function openUpdateBlock(DOMel) {
+  DOMel.style.zIndex = 1000;
+  DOMel.querySelector("input").focus();
 }
