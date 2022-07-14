@@ -35,13 +35,13 @@
         <ul class="list-group">
           <% for(let i = 0; i < notes.length; i++) { %>
           <li
-            class="list-group-item d-flex justify-content-between align-items-center"
+            class="list-group-item d-flex justify-content-between align-items-center position-relative"
           >
             <p><%= notes[i].title %></p>
             <div class="rule__items d-flex">
               <button
                 data-type="change"
-                class="btn btn-primary me-4"
+                class="btn btn-primary me-2"
                 data-id="<%= notes[i].id %>"
               >
                 Редактировать
@@ -54,6 +54,31 @@
               >
                 &times;
               </button>
+            </div>
+            <div
+              class="updated__block position-absolute top-0 start-0 bottom-0 end-0 d-flex justify-content-between align-items-center p-2 bg-light"
+              style="z-index: -1"
+              data-type="update"
+            >
+              <input
+                type="text"
+                class="form-control"
+                value="<%= notes[i].title  %>"
+                style="width: 100px"
+                data-id="<%= notes[i].id  %>"
+              />
+              <div class="buttons">
+                <button
+                  class="btn btn-success"
+                  data-type="update"
+                  type="submit"
+                >
+                  Сохранить
+                </button>
+                <button class="btn btn-danger" data-type="cancel">
+                  Отменить
+                </button>
+              </div>
             </div>
           </li>
           <% }%>

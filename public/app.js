@@ -7,18 +7,31 @@ document.addEventListener("click", ({ target }) => {
   }
 
   if (target.dataset.type === "change") {
-    const message = prompt("Введите новое название").trim();
-    const id = target.dataset.id;
+    const updateBlock = target
+      .closest(".list-group-item")
+      .querySelector(".updated__block");
+    updateBlock.style.zIndex = 1000;
+    updateBlock.querySelector("input").focus();
+  }
+
+  if (target.dataset.type === "update") {
+    const updateBlock = target
+      .closest(".list-group-item")
+      .querySelector(".updated__block");
+    const message = updateBlock.querySelector("input").value;
+    const id = updateBlock.querySelector("input").dataset.id;
     if (message) {
       const note = { id: id, title: message };
       const textContentTag = target.closest("li").querySelector("p");
-
-      chengeNote(id, note).then(
-        () => (textContentTag.textContent = note.title)
-      );
+      updateNote(note).then(() => (textContentTag.textContent = note.title));
+      target.closest(".updated__block").style.zIndex = -1;
     } else {
       alert("Поле не долно быть пустым");
     }
+  }
+
+  if (target.dataset.type === "cancel") {
+    target.closest(".updated__block").style.zIndex = -1;
   }
 });
 
@@ -32,7 +45,7 @@ async function remove(id) {
   }
 }
 
-async function chengeNote(id, note) {
+async function updateNote(note) {
   try {
     await fetch(`/`, {
       method: "PUT",
